@@ -24,13 +24,6 @@ CREATE TABLE `user` (
   UNIQUE KEY `unique_key` (`email`)
 );
 
-CREATE TABLE `genre` (
-  `id`         int(11)     NOT NULL   AUTO_INCREMENT,
-  `name`       varchar(64) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-);
-
 CREATE TABLE `film` (
   `id`                          int(11)       NOT NULL AUTO_INCREMENT,
   `title`                       VARCHAR(64)   NOT NULL,
@@ -38,13 +31,9 @@ CREATE TABLE `film` (
   `release_date`                DATETIME      NOT NULL,
   `image_filename`              VARCHAR(64)   NULL,
   `runtime`                     int(11)       DEFAULT NULL,
-  `director_id`                 int(11)       NOT NULL,
-  `genre_id`                    int(11)       NOT NULL,
-  `age_rating`                  VARCHAR(3)    NOT NULL DEFAULT 'TBC',
   PRIMARY KEY (`id`),
-  UNIQUE KEY (`title`),
-  FOREIGN KEY (`director_id`) REFERENCES `user` (`id`),
-  FOREIGN KEY (`genre_id`) REFERENCES `genre` (`id`)
+  UNIQUE KEY (`title`)
+
 );
 
 CREATE TABLE `film_review` (

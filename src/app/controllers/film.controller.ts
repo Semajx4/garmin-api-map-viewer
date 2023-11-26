@@ -15,40 +15,18 @@ const viewAll = async (req: Request, res: Response): Promise<void> => {
             res.status(400).send();
             return;
         }
-
         if (req.query.hasOwnProperty("directorId"))
             req.query.directorId = parseInt(req.query.directorId as string, 10) as any;
-        if (req.query.hasOwnProperty("reviewerId"))
-            req.query.reviewerId = parseInt(req.query.reviewerId as string, 10) as any;
         if (req.query.hasOwnProperty("startIndex"))
             req.query.startIndex = parseInt(req.query.startIndex as string, 10) as any;
         if (req.query.hasOwnProperty("count"))
             req.query.count = parseInt(req.query.count as string, 10) as any;
-        if (req.query.hasOwnProperty("genreIds")) {
-            if (!Array.isArray(req.query.genreIds))
-                req.query.genreIds = [parseInt(req.query.genreIds as string, 10)] as any;
-            else
-                req.query.genreIds = (req.query.genreIds as string[]).map((x: string) => parseInt(x, 10)) as any;
-            const genres = await Film.getGenres();
-            if (!(req.query.genreIds as any as number[]).every(c => genres.map(x => x.genreId).includes(c))) {
-                res.statusMessage = `Bad Request: No genre with id`;
-                res.status(400).send();
-                return;
-            }
-        }
-        if (req.query.hasOwnProperty("ageRatings")) {
-            if (!Array.isArray(req.query.ageRatings))
-                req.query.ageRatings = [req.query.ageRatings] as any;
-        }
+
 
         let search: filmSearchQuery = {
             q: '',
             startIndex: 0,
             count: -1,
-            genreIds: [],
-            ageRatings: [],
-            directorId: -1,
-            reviewerId: -1,
             sortBy: 'RELEASED_ASC'
         }
         search = {...search, ...req.query} as filmSearchQuery;
@@ -119,19 +97,8 @@ const addOne = async (req: Request, res: Response): Promise<void> => {
             runtime = req.body.runtime;
         }
 
-        let ageRating: string = "TBC";
-        if (req.body.hasOwnProperty("ageRating")) {
-            ageRating = req.body.ageRating;
-        }
 
-        const genres = await Film.getGenres();
-        if (!genres.find(g => g.genreId === req.body.genreId)) {
-            res.statusMessage = "No genre with id"
-            res.status(400).send();
-            return;
-        }
-
-        const result = await Film.addOne(req.authId, req.body.title, req.body.description, releaseDate, ageRating, req.body.genreId, runtime)
+        const result = await Film.addOne(req.authId, req.body.title, req.body.description, releaseDate, runtime)
         if (result) {
             res.status(201).send({"filmId": result.insertId});
             return;
@@ -179,13 +146,7 @@ const editOne = async (req: Request, res: Response): Promise<void> => {
             return;
         }
         if (film.directorId !== req.authId) {
-            res.statusMessage = "Cannot edit another user's auction";
-            res.status(403).send();
-            return;
-        }
-        const reviews = await Review.getReviews(filmId);
-        if (reviews.length > 0) {
-            res.statusMessage = "Cannot edit a film after a review has been placed on it";
+            res.statusMessage = "Cannot edit another user's film";
             res.status(403).send();
             return;
         }
@@ -218,26 +179,12 @@ const editOne = async (req: Request, res: Response): Promise<void> => {
             releaseDate = film.releaseDate;
         }
 
-        let ageRating;
-        if (req.body.hasOwnProperty("ageRating")) {
-            ageRating = req.body.ageRating;
-        } else {
-            ageRating = film.ageRating;
-        }
 
 
-        let genreId;
-        if (req.body.hasOwnProperty("genreId")) {
-            const genres = await Film.getGenres();
-            if (!genres.find(g => g.genreId === req.body.genreId)) {
-                res.statusMessage = "No genre with id";
-                res.status(400).send();
-            } else {
-                genreId = req.body.genreId
-            }
-        } else {
-            genreId = film.genreId;
-        }
+
+
+
+
 
         let runtime;
         if (req.body.hasOwnProperty("runtime")) {
@@ -246,7 +193,7 @@ const editOne = async (req: Request, res: Response): Promise<void> => {
             runtime = film.runtime;
         }
 
-        const result = await Film.editOne(filmId, title, description, releaseDate, ageRating, genreId, runtime)
+        const result = await Film.editOne(filmId, title, description, releaseDate, runtime)
         if (result) {
             res.status(200).send();
             return;
@@ -313,14 +260,6 @@ const deleteOne = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
-const getGenres = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const genres = await Film.getGenres();
-        res.status(200).send(genres);
-    } catch (err) {
-        Logger.error(err);
-        res.status(500).send();
-    }
-}
 
-export {viewAll, getOne, addOne, editOne, deleteOne, getGenres};
+
+export {viewAll, getOne, addOne, editOne, deleteOne};

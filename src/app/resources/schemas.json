@@ -101,11 +101,6 @@
         "minLength": 1,
         "format": "integer"
       },
-      "reviewerId": {
-        "type": "string",
-        "minLength": 1,
-        "format": "integer"
-      },
       "startIndex": {
         "type": "string",
         "minLength": 1,
@@ -125,52 +120,6 @@
           "RELEASED_DESC",
           "RATING_ASC",
           "RATING_DESC"
-        ]
-      },
-      "genreIds": {
-        "anyOf": [
-          {
-            "type": "string",
-            "format": "integer"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "integer"
-            }
-          }
-        ]
-      },
-      "ageRatings": {
-        "anyOf": [
-          {
-            "type": "string",
-            "enum": [
-              "G",
-              "PG",
-              "M",
-              "R13",
-              "R16",
-              "R18",
-              "TBC"
-            ]
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "G",
-                "PG",
-                "M",
-                "R13",
-                "R16",
-                "R18",
-                "TBC"
-              ]
-            }
-          }
         ]
       }
     }
@@ -192,34 +141,16 @@
         "type": "string",
         "format": "datetime"
       },
-      "genreId": {
-        "type": "number",
-        "format": "integer",
-        "minimum": 0
-      },
       "runtime": {
         "type": "number",
         "format": "integer",
         "minimum": 1,
         "maximum": 300
-      },
-      "ageRating": {
-        "type": "string",
-        "enum": [
-          "G",
-          "PG",
-          "M",
-          "R13",
-          "R16",
-          "R18",
-          "TBC"
-        ]
       }
     },
     "required": [
       "title",
-      "description",
-      "genreId"
+      "description"
     ],
     "additionalProperties": false
   },
@@ -240,28 +171,11 @@
         "type": "string",
         "format": "datetime"
       },
-      "genreId": {
-        "type": "number",
-        "format": "integer",
-        "minimum": 0
-      },
       "runtime": {
         "type": "number",
         "format": "integer",
         "minimum": 1,
         "maximum": 300
-      },
-      "ageRating": {
-        "type": "string",
-        "enum": [
-          "G",
-          "PG",
-          "M",
-          "R13",
-          "R16",
-          "R18",
-          "TBC"
-        ]
       }
     }
   },

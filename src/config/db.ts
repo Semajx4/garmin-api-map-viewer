@@ -19,7 +19,7 @@ const connect = async (): Promise<void> => {
         port: parseInt(process.env.MYSQL_PORT,10) || 3306
     } );
     await state.pool.getConnection(); // Check connection
-    Logger.info(`Successfully connected to database`)
+    Logger.info(`Successfully connected to database on port: ` + process.env.MYSQL_PORT)
     return
 };
 

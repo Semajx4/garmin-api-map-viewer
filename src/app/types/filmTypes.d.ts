@@ -1,18 +1,13 @@
 type film = {
     filmId: number,
     title: string,
-    genreId: number,
     releaseDate: string,
-    directorId: number,
-    directorFirstName: string,
-    directorLastName: string,
-    rating: number,
-    ageRating: string
+
 }
 
 type filmFull = {
+    directorId: number,
     description: string,
-    numReviews: number,
     runtime: number
 } & film
 
@@ -36,10 +31,6 @@ type review = {
 
 type filmSearchQuery = {
     q?: string,
-    directorId?: number,
-    reviewerId?: number,
-    genreIds?: Array<number>,
-    ageRatings?: Array<string>,
     sortBy?: string
     count?: number,
     startIndex?: number

@@ -3,7 +3,7 @@ import { connect } from './config/db';
 import Logger from './config/logger'
 
 const app = express();
-const port = process.env.PORT || 4941;
+const port = process.env.PORT || 8889;
 
 // Connect to MySQL on start
 async function main() {
@@ -13,7 +13,7 @@ async function main() {
             Logger.info('Listening on port: ' + port)
         });
     } catch (err) {
-        Logger.error('Unable to connect to MySQL.')
+        Logger.error('Unable to connect to MySQL.'+ err)
         process.exit(1);
     }
 }

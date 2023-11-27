@@ -31,6 +31,7 @@ type review = {
 
 type filmSearchQuery = {
     q?: string,
+    directorId: number,
     sortBy?: string
     count?: number,
     startIndex?: number

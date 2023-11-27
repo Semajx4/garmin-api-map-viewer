@@ -25,6 +25,7 @@ const viewAll = async (req: Request, res: Response): Promise<void> => {
 
         let search: filmSearchQuery = {
             q: '',
+            directorId:-1,
             startIndex: 0,
             count: -1,
             sortBy: 'RELEASED_ASC'
@@ -97,7 +98,7 @@ const addOne = async (req: Request, res: Response): Promise<void> => {
             runtime = req.body.runtime;
         }
 
-
+        Logger.info(req.authId);
         const result = await Film.addOne(req.authId, req.body.title, req.body.description, releaseDate, runtime)
         if (result) {
             res.status(201).send({"filmId": result.insertId});

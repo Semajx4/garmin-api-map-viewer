@@ -10,7 +10,6 @@ module.exports = (app: Express) => {
         .get(film.viewAll)
         .post(authenticate, film.addOne);
 
-
     app.route(rootUrl+'/films/:id')
         .get(film.getOne)
         .patch(authenticate, film.editOne)

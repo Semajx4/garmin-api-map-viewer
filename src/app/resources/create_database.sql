@@ -31,8 +31,10 @@ CREATE TABLE `film` (
   `release_date`                DATETIME      NOT NULL,
   `image_filename`              VARCHAR(64)   NULL,
   `runtime`                     int(11)       DEFAULT NULL,
+  `director_id`                 int(11)       NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY (`title`)
+  UNIQUE KEY (`title`),
+  FOREIGN KEY (`director_id`) REFERENCES `user` (`id`)
 
 );
 

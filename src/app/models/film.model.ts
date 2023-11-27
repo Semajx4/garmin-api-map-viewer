@@ -1,15 +1,15 @@
 import {getPool} from "../../config/db";
 import {ResultSetHeader} from "mysql2";
+import Logger from "../../config/logger";
 
 const viewAll = async (searchQuery: filmSearchQuery): Promise<filmReturn> => {
     let query = `SELECT
     F.id as filmId,
     F.title as title,
-    F.genre_id as genreId,
     F.director_id as directorId,
     U.first_name as directorFirstName,
     U.last_name as directorLastName,
-    F.release_date as releaseDate,
+    F.release_date as releaseDate
     FROM film F JOIN user U on F.director_id = U.id `;
     let countQuery = `SELECT COUNT(F.id) from film F JOIN user U on F.director_id = U.id `
 
@@ -21,6 +21,11 @@ const viewAll = async (searchQuery: filmSearchQuery): Promise<filmReturn> => {
         values.push(`%${searchQuery.q}%`);
         values.push(`%${searchQuery.q}%`);
     }
+    if (searchQuery.directorId && searchQuery.directorId !== -1) {
+        whereConditions.push('director_id = ?');
+        values.push(searchQuery.directorId);
+    }
+
 
     if (whereConditions.length) {
         query += `\nWHERE ${(whereConditions ? whereConditions.join(' AND ') : 1)}\n`
@@ -52,7 +57,6 @@ const viewAll = async (searchQuery: filmSearchQuery): Promise<filmReturn> => {
         values.push(searchQuery.startIndex);
     }
 
-
     const rows = await getPool().query(query, values);
     const films = rows[0];
     const countRows = await getPool().query(countQuery, countValues);
@@ -69,7 +73,7 @@ const getOne = async (id: number): Promise<filmFull> => {
     U.first_name as directorFirstName,
     U.last_name as directorLastName,
     F.release_date as releaseDate,
-    F.runtime as runtime,
+    F.runtime as runtime
     FROM film F JOIN user U on F.director_id = U.id
     WHERE F.id=?`;
     const rows = await getPool().query(query, id);
@@ -79,8 +83,8 @@ const getOne = async (id: number): Promise<filmFull> => {
 }
 
 const addOne = async (directorId: number, title: string, description: string, releaseDate: string, runtime: number): Promise<ResultSetHeader> => {
-    const query = `INSERT INTO film (title, description, release_date, runtime) VALUES (?, ?, ?, ?)`;
-    const [result] = await getPool().query(query, [title, description, releaseDate, runtime]);
+    const query = `INSERT INTO film (director_id, title, description, release_date, runtime) VALUES (?, ?, ?, ?, ?)`;
+    const [result] = await getPool().query(query, [directorId, title, description, releaseDate, runtime]);
     return result;
 }
 

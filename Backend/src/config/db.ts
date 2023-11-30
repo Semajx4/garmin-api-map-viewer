@@ -7,17 +7,17 @@ const state = {
     // @ts-ignore
     pool: null
 };
-
+Logger.info(parseInt(process.env.MYSQL_PORT,10))
 const connect = async (): Promise<void> => {
-    state.pool = await mysql.createPool( {
+    state.pool = await mysql.createPool({
         connectionLimit: 100,
         multipleStatements: true,
-        host: process.env.MYSQL_HOST || "localhost",
-        user: process.env.MYSQL_USER,
-        password: process.env.MYSQL_PASSWORD || '',
-        database: process.env.MYSQL_DATABASE,
-        port: parseInt(process.env.MYSQL_PORT,10) || 3306
-    } );
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "films_schema",
+        port: 3306
+    });
     await state.pool.getConnection(); // Check connection
     Logger.info(`Successfully connected to database on port: ` + process.env.MYSQL_PORT)
     return

@@ -28,6 +28,7 @@ export default () => {
     require('../app/routes/backdoor.routes')(app);
     require('../app/routes/user.routes')(app);
     require('../app/routes/film.routes')(app);
+    require('../app/routes/location.routes')(app);
 
 
     return app;

@@ -198,5 +198,74 @@
       "rating"
     ],
     "additionalProperties": false
+  },
+  "ping_search": {
+    "type": "object",
+    "properties": {
+      "pingTime": {
+        "type": "string",
+        "format" : "datetime"
+      },
+      "pingLatitude": {
+        "type": "number",
+        "minimum" : -90,
+        "maximum" : 90 
+        
+      },
+      "pingLongitude": {
+        "type": "number",
+        "minimum" : -180,
+        "maximum" : 180 
+      },
+      "count": {
+        "type": "string",
+        "minLength": 1,
+        "format": "integer"
+      },
+      "startIndex": {
+        "type": "string",
+        "minLength": 1,
+        "format": "integer"
+      }
+    }
+  },
+  "ping_post": {
+    "type": "object",
+    "properties": {
+      "latitude": {
+        "type": "number",
+        "minimum": -90,
+        "maximum": 90
+      },
+      "longitude": {
+        "type": "number",
+        "minimum": -180,
+        "maximum": 180
+      },
+      "elevation": {
+        "type": "number"
+      },
+      "velocity": {
+        "type": "number",
+        "minimum": 0
+      },
+      "textMessage": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      },
+      "timeStamp": {
+        "type": "string",
+        "format": "datetime"
+      }
+    },
+    "required": [
+      "latitude",
+      "longitude",
+      "elevation",
+      "velocity",
+      "timeStamp"
+    ],
+    "additionalProperties": false
   }
 }

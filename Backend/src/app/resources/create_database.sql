@@ -6,7 +6,7 @@
 DROP TABLE IF EXISTS `film_review`;
 DROP TABLE IF EXISTS `film`;
 DROP TABLE IF EXISTS `user`;
-DROP TABLE IF EXISTS `genre`;
+DROP TABLE IF EXISTS `map_pings`;
 
 
 ### TABLES ###
@@ -49,4 +49,16 @@ CREATE TABLE `film_review` (
   UNIQUE KEY (`film_id`, `user_id`),
   FOREIGN KEY (`user_id`)   REFERENCES `user` (`id`),
   FOREIGN KEY (`film_id`)   REFERENCES `film` (`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `map_pings` (
+  `id`          int(11)       NOT NULL AUTO_INCREMENT,
+  `latitude`    FLOAT         NOT NULL,
+  `longitude`   FLOAT         NOT NULL,
+  `elevation`   FLOAT         NOT NULL,
+  `velocity`    FLOAT         NOT NULL,
+  `text_message`VARCHAR(512)  NULL,
+  `timestamp`   DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`timestamp`)
 );

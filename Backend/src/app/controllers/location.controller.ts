@@ -67,12 +67,11 @@ const getOne = async (req: Request, res: Response): Promise<void> => {
 const addOne = async (req: Request, res: Response): Promise<void> => {
     const currentPing = await Loc.fetchAndStoreData();
     try {
-        Logger.info(currentPing);
         const currentPingJson = {
             "latitude": currentPing.pingLatitude,
             "longitude": currentPing.pingLongitude,
-            "elevation": currentPing.pingElevation, // Rounding elevation to two decimal places
-            "velocity": currentPing.pingVelocity, // Rounding velocity to one decimal place
+            "elevation": currentPing.pingElevation, 
+            "velocity": currentPing.pingVelocity, 
             "textMessage": currentPing.pingMessage,
             "timeStamp": currentPing.pingTime.toISOString().replace('T', ' ').slice(0, -5) // Formatting timestamp
         }

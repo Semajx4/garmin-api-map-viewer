@@ -2,7 +2,7 @@
 
 ### DROP EVERYTHING ###
 # Tables/views must be dropped in reverse order due to referential constraints (foreign keys).
-
+SET GLOBAL default_storage_engine = 'InnoDB';
 DROP TABLE IF EXISTS `film_review`;
 DROP TABLE IF EXISTS `film`;
 DROP TABLE IF EXISTS `user`;

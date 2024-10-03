@@ -66,12 +66,13 @@ const getOne = async (req: Request, res: Response): Promise<void> => {
 
 const addOne = async (req: Request, res: Response): Promise<void> => {
     const currentPing = await Loc.fetchAndStoreData();
+    // Logger.info(currentPing);
     try {
         const currentPingJson = {
             "latitude": currentPing.pingLatitude,
             "longitude": currentPing.pingLongitude,
-            "elevation": currentPing.pingElevation, 
-            "velocity": currentPing.pingVelocity, 
+            "elevation": currentPing.pingElevation,
+            "velocity": currentPing.pingVelocity,
             "textMessage": currentPing.pingMessage,
             "timeStamp": currentPing.pingTime.toISOString().replace('T', ' ').slice(0, -5) // Formatting timestamp
         }
@@ -99,10 +100,10 @@ const addOne = async (req: Request, res: Response): Promise<void> => {
             return;
         }
     } catch (err) {
-        Logger.error(err);
+        // Logger.error(err);
         if (err.errno === 1062) { // 1062 = Duplicate entry MySQL error number
             res.statusMessage = "Forbidden: Duplicate ping";
-            res.status(403).send();
+            res.status(403).send(res.statusMessage);
             return;
         } else if (err.errno === 1292 && err.message.includes("datetime")) {
             res.statusMessage = "Bad Request: Invalid datetime value";

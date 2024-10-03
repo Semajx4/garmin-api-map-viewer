@@ -7,7 +7,7 @@ import Logger from "../../config/logger";
 const viewAll = async (searchQuery: pingSearchQuery): Promise<mapPingReturn> => {
     let query = `SELECT
     id as pingId,
-    latitude as pingLatitiude,
+    latitude as pingLatitude,
     longitude as pingLongitude,
     elevation as pingElevation,
     velocity as pingVelocity,
@@ -41,7 +41,7 @@ const viewAll = async (searchQuery: pingSearchQuery): Promise<mapPingReturn> => 
 const getOne = async (id: number): Promise<mapPing> => {
     const query = `SELECT
     id as pingId,
-    latitude as pingLatitiude,
+    latitude as pingLatitude,
     longitude as pingLongitude,
     elevation as pingElevation,
     velocity as pingVelocity,

@@ -9,7 +9,7 @@ function fetchAndStoreData(): Promise<mapPing> {
     try {
       const response = await axios.get('https://share.garmin.com/Feed/Share/5R9V2');
       const xmlData: string = response.data;
-
+      // Logger.info(xmlData);
       // Parse KML file
       parseString(xmlData, (err, result) => {
         if (err) {

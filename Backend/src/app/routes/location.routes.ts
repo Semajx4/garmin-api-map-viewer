@@ -6,7 +6,7 @@ import {authenticate} from "../middleware/auth.middleware";
 module.exports = (app: Express) => {
     app.route(rootUrl+'/location')
         .get(location.viewAll)
-        .post(authenticate, location.addOne);
+        .post(location.addOne);
 
     app.route(rootUrl+'/location/:id')
         .get(location.getOne)

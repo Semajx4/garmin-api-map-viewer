@@ -8,7 +8,7 @@ import * as Loc from '../services/locationFetcher'
 
 const viewAll = async (req: Request, res: Response): Promise<void> => {
     try {
-        const validation = await validate(schemas.ping_search, req.query); // TODO: add ping schema
+        const validation = await validate(schemas.ping_search, req.query); 
         if (validation !== true) {
             res.statusMessage = `Bad Request: ${validation.toString()}`;
             res.status(400).send();
